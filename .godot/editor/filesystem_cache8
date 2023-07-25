@@ -1,0 +1,14 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1690299682
+default_env.tres::Environment::-1::1690299333::0::1::::<><>::
+icon.png::CompressedTexture2D::1158891146410272591::1690284674::1690299682::1::::<><>::
+README.md::TextFile::-1::1690039203::0::1::::<><>::
+ROADMAP.md::TextFile::-1::1690040024::0::1::::<><>::
+::res://assets/::1690299682
+Player.png::CompressedTexture2D::6675979976010911244::1690286853::1690300174::1::::<><>::
+::res://assets/art/::1690286906
+::res://scenes/::1690284141
+::res://sprites/::1690297799
+Player.tscn::PackedScene::-1::1690299333::0::1::::<><>::res://assets/Player.png<>res://src/PlayerCharacter.gd
+::res://src/::1690297682
+PlayerCharacter.gd::GDScript::-1::1690299333::0::1::::<>CharacterBody2D<>::
