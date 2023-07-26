@@ -1,47 +1,16 @@
 extends CharacterBody2D
 
-var team: int
-var character_class: int
+var team: Globals.Team
+var character: Globals.Character
 var previous_commands: Globals.CharacterCommands
 var character_commands_function: Callable
-
-func _init():
-	team = Globals.Team.ATTACKER
-	character_class = Globals.CharacterClass.ASSAULT
+var is_inited = false
 
 
-func kbrms_controller():
-	var commands: Globals.CharacterCommands = Globals.CharacterCommands.new()
-	var up = Input.is_action_pressed("move_up")
-	var down = Input.is_action_pressed("move_down")
-	var left = Input.is_action_pressed("move_left")
-	var right = Input.is_action_pressed("move_right")
-
-	var move = Vector2(0, 0)
-	if up and down:
-		move = Vector2(0, 0)
-	elif up:
-		move = Vector2(0, -1)
-	elif down:
-		move = Vector2(0, 1)
-
-	if left and right:
-		move += Vector2(0, 0)
-	elif left:
-		move += Vector2(-1, 0)
-	elif right:
-		move += Vector2(1, 0)
-
-	commands.Move = move
-	commands.Crosshair = get_local_mouse_position()
-	commands.Shoot = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-
-	return commands
-
-
-func init(tm, char_cls, char_comm_func = kbrms_controller):
+func init(tm, char_cls, char_comm_func):
+	is_inited = true
 	team = tm
-	character_class = char_cls
+	character = Globals.Character.new(char_cls)
 	previous_commands = Globals.CharacterCommands.new()
 	character_commands_function = char_comm_func
 
@@ -50,23 +19,63 @@ func init(tm, char_cls, char_comm_func = kbrms_controller):
 	else:
 		$Team.frame = 1
 
-	if character_class == Globals.CharacterClass.ASSAULT:
-		$Class.frame = 2
-	elif character_class == Globals.CharacterClass.SNIPER:
-		$Class.frame = 3
-	elif character_class == Globals.CharacterClass.RUNNER:
-		$Class.frame = 4
+	if char_cls == Globals.CharacterClass.ASSAULT:
+		$CharacterClass.frame = 2
+	elif char_cls == Globals.CharacterClass.SNIPER:
+		$CharacterClass.frame = 3
+	elif char_cls == Globals.CharacterClass.RUNNER:
+		$CharacterClass.frame = 4
 
 
 func _ready():
-	pass  # Replace with function body.
+	if not is_inited:
+		init(Globals.Team.DEFENDER, Globals.CharacterClass.RUNNER, kbrms_controller)
 
 
 func get_character_commands():
 	return character_commands_function.call()
 
 
-func _process(_delta):
+func _process(delta):
 	var commands = get_character_commands()
 
-	move_and_collide(commands.Move * Globals.Character)
+	move_and_collide(commands.Move * character.movementspeed * delta)
+	self.rotation += calc_del_rotation(commands.Crosshair, delta)
+
+
+
+
+
+# utility functions
+func calc_del_rotation(mouse_pos, delta):
+	var mouse_dir = mouse_pos - global_position
+	var mouse_angle = mouse_dir.angle() + PI / 2
+	var delta_angle = mouse_angle - self.rotation
+	if delta_angle > PI:
+		delta_angle -= 2 * PI
+	elif delta_angle < -PI:
+		delta_angle += 2 * PI
+	var max_change = character.rotationspeed * delta
+	if abs(delta_angle) > max_change:
+		delta_angle = sign(delta_angle) * max_change
+	return delta_angle
+
+
+func kbrms_controller():
+	var commands: Globals.CharacterCommands = Globals.CharacterCommands.new()
+
+	var move = Vector2(0, 0)
+	if(Input.is_action_pressed("move_up")):
+		move.y -= 1
+	if(Input.is_action_pressed("move_down")):
+		move.y += 1
+	if(Input.is_action_pressed("move_left")):
+		move.x -= 1
+	if(Input.is_action_pressed("move_right")):
+		move.x += 1
+
+	commands.Move = move
+	commands.Crosshair = get_global_mouse_position()
+	commands.Shoot = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+
+	return commands

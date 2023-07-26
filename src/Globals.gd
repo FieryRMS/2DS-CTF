@@ -5,8 +5,9 @@ enum CharacterClass { ASSAULT, SNIPER, RUNNER }
 
 
 class Character:
-	var movementspeed = 1
-	var rotationspeed = 1
+	var character_class: CharacterClass
+	var movementspeed = 100
+	var rotationspeed = 5
 	var damage = 1
 	var basespread = 1
 	var spreadmultiplier = 1
@@ -17,7 +18,8 @@ class Character:
 	var bulletspeed = 1
 	var health = 1
 
-	func _init(_character_class):
+	func _init(chr_cls):
+		self.character_class = chr_cls
 		pass
 
 

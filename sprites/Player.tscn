@@ -10,16 +10,19 @@ radius = 8.0
 radius = 1.0
 
 [node name="Character" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
 script = ExtResource("2")
 
 [node name="Team" type="Sprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1")
 hframes = 3
 vframes = 2
 
 [node name="CharacterClass" type="Sprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1")
 hframes = 3
 vframes = 2
@@ -27,14 +30,17 @@ frame = 2
 
 [node name="Face" type="Sprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1")
 hframes = 3
 vframes = 2
 frame = 5
 
 [node name="OuterHitbox" type="CollisionShape2D" parent="."]
+scale = Vector2(1.5, 1.5)
 shape = SubResource("1")
 
 [node name="InnerHitbox" type="CollisionShape2D" parent="."]
+scale = Vector2(1.5, 1.5)
 shape = SubResource("CircleShape2D_ums15")
 debug_color = Color(0.027451, 0.65098, 0, 0.419608)

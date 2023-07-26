@@ -1,4 +1,4 @@
 res://default_env.tres
 res://sprites/Player.tscn
-res://src/globals.gd
+res://src/Globals.gd
 res://src/PlayerCharacter.gd
