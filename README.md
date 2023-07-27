@@ -135,5 +135,5 @@ This is a class that will be returned by the `update()` function. It will contai
 | Variable Name | Type | Description |
 |---|---|---|
 | Move | `Vector2` | The direction in which the character should move. Vector will be normalized before use if magnitude greater than 1. Valid values range from -1 to 1 in both x and y. |
-| Crosshair | `Vector2` | The direction in which the character should aim. Point can be anywhere on the map. |
+| Crosshair | `Vector2` | The direction in which the character should aim. Point is expected to be a global point |
 | Shoot | `bool` | True if the character should shoot. |

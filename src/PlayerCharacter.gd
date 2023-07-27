@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+var BulletSprite = preload("res://sprites/bullet.tscn")
+
 var team: Globals.Team
 var character: Globals.Character
 var previous_commands: Globals.CharacterCommands
@@ -16,8 +18,12 @@ func init(tm, char_cls, char_comm_func):
 
 	if team == Globals.Team.ATTACKER:
 		$Team.frame = 0
+		add_to_group("attacker")
+		set_collision_layer_value(1, true)
 	else:
 		$Team.frame = 1
+		add_to_group("defender")
+		set_collision_layer_value(2, true)
 
 	if char_cls == Globals.CharacterClass.ASSAULT:
 		$CharacterClass.frame = 2
@@ -25,6 +31,8 @@ func init(tm, char_cls, char_comm_func):
 		$CharacterClass.frame = 3
 	elif char_cls == Globals.CharacterClass.RUNNER:
 		$CharacterClass.frame = 4
+
+	$Firerate.wait_time = 1.0 / character.firerate
 
 
 func _ready():
@@ -42,8 +50,12 @@ func _process(delta):
 	move_and_collide(commands.Move * character.movementspeed * delta)
 	self.rotation += calc_del_rotation(commands.Crosshair, delta)
 
-
-
+	if commands.Shoot and $Firerate.is_stopped():
+		var bullet = BulletSprite.instantiate()
+		var pos = global_position + Vector2(0, -16).rotated(rotation)
+		bullet.init(team, pos, rotation, character.bulletspeed, character.damage)
+		get_parent().add_child(bullet)
+		$Firerate.start()
 
 
 # utility functions
@@ -65,13 +77,13 @@ func kbrms_controller():
 	var commands: Globals.CharacterCommands = Globals.CharacterCommands.new()
 
 	var move = Vector2(0, 0)
-	if(Input.is_action_pressed("move_up")):
+	if Input.is_action_pressed("move_up"):
 		move.y -= 1
-	if(Input.is_action_pressed("move_down")):
+	if Input.is_action_pressed("move_down"):
 		move.y += 1
-	if(Input.is_action_pressed("move_left")):
+	if Input.is_action_pressed("move_left"):
 		move.x -= 1
-	if(Input.is_action_pressed("move_right")):
+	if Input.is_action_pressed("move_right"):
 		move.x += 1
 
 	commands.Move = move
@@ -79,3 +91,9 @@ func kbrms_controller():
 	commands.Shoot = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 
 	return commands
+
+
+func take_damage(damage):
+	character.health -= damage
+	if character.health <= 0:
+		queue_free()

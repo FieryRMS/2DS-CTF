@@ -3,20 +3,22 @@ class_name Globals
 enum Team { ATTACKER, DEFENDER }
 enum CharacterClass { ASSAULT, SNIPER, RUNNER }
 
+const friendly_fire = false
+
 
 class Character:
 	var character_class: CharacterClass
-	var movementspeed = 100
-	var rotationspeed = 5
-	var damage = 1
-	var basespread = 1
-	var spreadmultiplier = 1
-	var spreadrecoveryspeed = 1
-	var firerate = 1
-	var viewdistance = 1
-	var viewangle = 1
-	var bulletspeed = 1
-	var health = 1
+	var movementspeed := 100
+	var rotationspeed := 5
+	var damage := 1
+	var basespread := 1
+	var spreadmultiplier := 1
+	var spreadrecoveryspeed := 1
+	var firerate := 5.0
+	var viewdistance := 1
+	var viewangle := 1
+	var bulletspeed := 100
+	var health := 1
 
 	func _init(chr_cls):
 		self.character_class = chr_cls

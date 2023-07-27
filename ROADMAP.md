@@ -4,20 +4,20 @@ This is a rough roadmap for the game. It is subject to change as I go along.
 
 ## Phase 1: Game Core and Basic Mechanics
 
-- [ ] Create simple game character and bullet mechanics. For now use keyboard input to control the character.
+- [x] Create simple game character and bullet mechanics. For now use keyboard input to control the character.
 - [ ] Create simple tilemap and use it to create a simple map. Remember to implement collisions.
 - [ ] Create a base character class that has the following properties and connect these properties to the game mechanics:
-  - [ ] Movement speed (MS)
-  - [ ] Character rotation speed (RS)
+  - [x] Movement speed (MS)
+  - [x] Character rotation speed (RS)
   - [ ] Damage dealt (DMG)
   - [ ] Base spread (BS)
   - [ ] Spread multiplier (SM)
   - [ ] Spread recovery speed (RR)
-  - [ ] Fire Rate (FR)
+  - [x] Fire Rate (FR)
   - [ ] view distance (VD)
   - [ ] view angle (VA)
-  - [ ] Bullet speed (BlS)
-  - [ ] health (HP)
+  - [x] Bullet speed (BlS)
+  - [x] health (HP)
 - [ ] use the base character class to create the following classes:
   - [ ] Assault (A)
   - [ ] Sniper (S)
